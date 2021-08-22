@@ -30,5 +30,28 @@ App::uses('Controller', 'Controller');
  * @package		app.Controller
  * @link		https://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
+
 class AppController extends Controller {
+    public $components = array(
+        'Flash',
+        //ログイン後、ログアウト後にどのような処理を行うか
+        'Auth' => array(
+            'loginRedirect' => array(
+                //UsersControllerに記述したログイン処理
+                'controller' => 'posts',
+                'action' => 'index'
+            ),
+            //UsersControllerに記述したログアウト処理
+            'logoutRedirect' => array(
+                'controller' => 'users',
+                'action' => 'add',
+                'home'
+            )
+        )
+    );
+
+    public function beforeFilter() {
+        $this->Auth->allow('add');
+    }
 }
+?>
